@@ -1,0 +1,26 @@
+server:
+  port: 8335
+
+spring:
+  application:
+    name: TEK-API-Gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: user-service
+              uri: lb://TEK-USERSERVICE
+              predicates:
+                - Path=/api/v1/users/**
+            - id: order-service
+              uri: lb://TEK-ORDERSERVICE
+              predicates:
+                - Path=/api/v1/orders/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true

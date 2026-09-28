@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.tek</groupId>
+    <artifactId>TEK_Microservices</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>TEK Microservices</name>
+    <description>
+        Aggregator/reactor project so IntelliJ opens all four services
+        (Service Registry, API Gateway, User Service, Order Service)
+        as one project. Each module keeps its own Spring Boot parent
+        and is still independently runnable/deployable.
+    </description>
+
+    <!--
+        Build/run order matters for a clean start, even though Maven
+        will happily build these in any order since they don't depend
+        on each other as libraries:
+          1. TEK_Service_Registry  (Eureka server - must be up first)
+          2. TEK_UserService       (registers with Eureka)
+          3. TEK_OrderService      (registers with Eureka, calls UserService via Feign)
+          4. TEK_API_Gateway       (routes to both, via Eureka)
+    -->
+    <modules>
+        <module>TEK_Service_Registry</module>
+        <module>TEK_UserService</module>
+        <module>TEK_OrderService</module>
+        <module>TEK_API_Gateway</module>
+    </modules>
+
+</project>
